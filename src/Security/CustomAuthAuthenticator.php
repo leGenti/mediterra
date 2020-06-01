@@ -18,6 +18,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CustomAuthAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
@@ -79,8 +80,8 @@ class CustomAuthAuthenticator extends AbstractFormLoginAuthenticator implements 
     public function checkCredentials($credentials, UserInterface $user)
     {
         // Check the user's password or other credentials and return true or false
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
         // If there are no credentials to check, you can just return true
-        throw new \Exception('TODO: check the credentials inside '.__FILE__);
     }
 
     public function getPassword($credentials): ?string
@@ -96,6 +97,14 @@ class CustomAuthAuthenticator extends AbstractFormLoginAuthenticator implements 
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): ?string
+    {
+        return $this->username;
     }
 
     protected function getLoginUrl()

@@ -1,0 +1,9 @@
+body{
+    background: black;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.form-control{
+    border: 1px solid black;
+}
